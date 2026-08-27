@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Group Vaccination — WHO AFRO HCM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- 1. Roboto (DIGIT spec) + Material Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Brand */
+      --brand:          #0E165D;
+      --brand-hover:    #15186F;
+      --brand-pressed:  #101357;
+      --brand-surface:  #EEF1FF;
+      --brand-border:   #C7D2FE;
+
+      /* Gray scale — complete 10-step */
+      --gray-50:   #FAFAFB;
+      --gray-100:  #F4F5F7;
+      --gray-200:  #E5E7EB;
+      --gray-300:  #D1D5DB;
+      --gray-400:  #9CA3AF;
+      --gray-500:  #6B7280;
+      --gray-600:  #4B5563;
+      --gray-700:  #374151;
+      --gray-800:  #1F2937;
+      --gray-900:  #111827;
+
+      /* Semantic text */
+      --text-heading:   #111827;
+      --text-primary:   #1F2937;
+      --text-secondary: #6B7280;
+
+      /* Status */
+      --success:      #15803D;
+      --success-bg:   #ECFDF3;
+      --warning:      #B45309;
+      --warning-bg:   #FFFBEB;
+      --error:        #B91C1C;
+      --error-bg:     #FEF2F2;
+      --info:         #1D4ED8;
+      --info-bg:      #EFF6FF;
+
+      /* Radius */
+      --radius-sm:   6px;
+      --radius-md:   8px;
+      --radius-lg:   12px;
+      --radius-pill: 9999px;
+
+      /* Shadows */
+      --shadow-xs: 0 1px 2px rgba(0,0,0,.05);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
+      --shadow-md: 0 4px 8px rgba(0,0,0,.08);
+    }
+
+    body {
+      background: var(--gray-100);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 0 80px;
+      font-family: 'Roboto', system-ui, sans-serif;
+    }
+
+    /* Material Icons sizing helper */
+    .material-icons {
+      font-family: 'Material Icons';
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      vertical-align: middle;
+    }
+
+    #app {
+      width: 390px;
+      min-height: 844px;
+      background: #fff;
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+      position: relative;
+    }
+
+    /* ── Screen base ── */
+    .screen {
+      display: none;
+      flex-direction: column;
+      min-height: 844px;
+      position: relative;
+    }
+
+    /* ── Header ── */
+    .header {
+      padding: 56px 20px 20px;
+      background: #fff;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .header--brand {
+      background: var(--brand);
+      border-bottom: none;
+    }
+    .header-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--gray-700);
+      font-size: 14px;
+      font-family: inherit;
+      font-weight: 500;
+      padding: 0;
+      margin-bottom: 12px;
+    }
+    .header-back .material-icons { font-size: 18px; }
+    .header--brand .header-back { color: rgba(255,255,255,0.8); }
+    .header-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 4px;
+    }
+    .header--brand .header-label { color: rgba(255,255,255,0.7); }
+    .header-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-heading);
+      line-height: 1.14;
+    }
+    .header--brand .header-title { color: #fff; }
+    .header-subtitle {
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+      margin-top: 4px;
+    }
+
+    /* ── Body scroll area ── */
+    .body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      padding-bottom: 100px;
+    }
+
+    /* ── Bottom action bar ── */
+    .action-bar {
+      position: sticky;
+      bottom: 0;
+      background: #fff;
+      border-top: 1px solid var(--gray-200);
+      padding: 16px 20px;
+      padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 48px;
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: background 0.15s, border-color 0.15s;
+      width: 100%;
+    }
+    .btn-primary {
+      background: var(--brand);
+      color: #fff;
+      border-color: var(--brand);
+    }
+    .btn-primary:hover  { background: var(--brand-hover);   border-color: var(--brand-hover);   }
+    .btn-primary:active { background: var(--brand-pressed); border-color: var(--brand-pressed); }
+    .btn-secondary {
+      background: #fff;
+      color: var(--brand);
+      border-color: var(--brand);
+    }
+    .btn-secondary:hover  { background: var(--brand-surface); }
+    .btn-secondary:active { background: var(--brand-surface); }
+    .btn-ghost {
+      background: none;
+      border: none;
+      color: var(--brand);
+      font-weight: 600;
+      font-size: 14px;
+      height: auto;
+      width: auto;
+      padding: 0;
+    }
+    .btn + .btn { margin-top: 12px; }
+
+    /* ── Section label ── */
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 12px;
+    }
+
+    /* ── Session card ── */
+    .session-card {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .session-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--brand-surface);
+      color: var(--brand);
+      border: 1px solid var(--brand-border);
+    }
+    .session-site {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-heading);
+    }
+    .session-meta {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .session-card-footer {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 14px;
+      padding: 40px 0;
+    }
+
+    /* ── Method option cards ── */
+    .method-card {
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .method-card:hover  { border-color: var(--brand);        background: var(--brand-surface); }
+    .method-card:active { border-color: var(--brand-pressed); background: var(--brand-surface); }
+    .method-card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 4px;
+    }
+    .method-card-subtitle {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    /* ── Form fields ── */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-700);
+      margin-bottom: 8px;
+    }
+    .form-input {
+      width: 100%;
+      height: 48px;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      padding: 0 12px;
+      font-size: 16px;
+      font-family: inherit;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .form-input:focus { border-color: var(--brand); }
+    .form-input.error { border-color: var(--error); background: var(--error-bg); }
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+    .form-error {
+      font-size: 12px;
+      color: var(--error);
+      margin-top: 4px;
+      display: none;
+    }
+
+    /* ── GPS chip ── */
+    .gps-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--success-bg);
+      color: var(--success);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: var(--radius-pill);
+      border: 1px solid #bbf7d0;
+      margin-bottom: 20px;
+    }
+    .gps-chip .material-icons { font-size: 16px; }
+
+    /* ── Dashboard progress panel ── */
+    .progress-panel {
+      background: var(--brand-surface);
+      border: 1px solid var(--brand-border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .progress-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--brand);
+      margin-bottom: 8px;
+    }
+    .progress-number {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--brand);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .progress-sub {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .divider { height: 1px; background: var(--gray-200); margin: 16px 0; }
+
+    /* ── Pill buttons (gender / age band) ── */
+    .pill-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .pill-btn {
+      flex: 1;
+      height: 48px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-pill);
+      background: #fff;
+      color: var(--gray-700);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .pill-btn:hover { border-color: var(--brand); color: var(--brand); }
+    .pill-error {
+      font-size: 12px;
+      color: var(--error);
+      margin-top: 4px;
+      display: none;
+    }
+
+    /* ── Summary card ── */
+    .summary-card {
+      background: var(--gray-100);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-row-label {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .summary-row-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-heading);
+    }
+
+    /* ── Success screen ── */
+    .success-screen-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .check-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--success-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .check-circle .material-icons { font-size: 40px; color: var(--success); }
+    .success-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-heading);
+      line-height: 1.14;
+      margin-bottom: 8px;
+    }
+    .success-sub {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+    .success-chip {
+      background: var(--brand-surface);
+      color: var(--brand);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--brand-border);
+      margin-bottom: 32px;
+    }
+    .success-actions {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      margin-top: auto;
+    }
+
+    /* Dashboard header badge row */
+    .dash-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .dash-site-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .badge-pill--white {
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      border-color: rgba(255,255,255,0.3);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+
+    <!-- ══════════════════════════════════════════
+         SCREEN 1 — Home
+    ══════════════════════════════════════════ -->
+    <div id="screen-home" class="screen">
+      <div class="header header--brand">
+        <div class="header-label">WHO AFRO · HCM</div>
+        <div class="header-title">Group vaccination</div>
+      </div>
+
+      <div class="body">
+        <div class="section-label">Today's sessions</div>
+        <div id="sessions-list"></div>
+        <div id="sessions-empty" class="empty-state" style="display:none;">No sessions yet. Tap Start Session to begin.</div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-primary" onclick="goTo('choose-method')">Start Session</button>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════
+         SCREEN 2 — Choose Method
+    ══════════════════════════════════════════ -->
+    <div id="screen-choose-method" class="screen">
+      <div class="header">
+        <button class="header-back" onclick="goTo('home')">
+          <span class="material-icons">arrow_back</span> Back
+        </button>
+        <div class="header-label">New session</div>
+        <div class="header-title">Where are you vaccinating?</div>
+      </div>
+
+      <div class="body">
+        <div class="method-card" onclick="selectMethod('clf')">
+          <div class="method-card-title">Community location</div>
+          <div class="method-card-subtitle">School, market, health post, community centre</div>
+        </div>
+        <div class="method-card" onclick="selectMethod('transit')">
+          <div class="method-card-title">Transit post</div>
+          <div class="method-card-subtitle">Bus station, border crossing, checkpoint</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════
+         SCREEN 3a — CLF Setup
+    ══════════════════════════════════════════ -->
+    <div id="screen-clf-setup" class="screen">
+      <div class="header">
+        <button class="header-back" onclick="goTo('choose-method')">
+          <span class="material-icons">arrow_back</span> Back
+        </button>
+        <div class="header-label">CLF</div>
+        <div class="header-title">Set up location</div>
+      </div>
+
+      <div class="body">
+        <div class="form-group">
+          <label class="form-label" for="clf-type">Type</label>
+          <select id="clf-type" class="form-input form-select"
+            onfocus="this.style.borderColor='var(--brand)'"
+            onblur="this.style.borderColor='var(--gray-300)'">
+            <option value="">Select type…</option>
+            <option value="school">School</option>
+            <option value="market">Market</option>
+            <option value="health-post">Health post</option>
+            <option value="community-centre">Community centre</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="clf-name">
+            Location name <span style="color:var(--error)">*</span>
+          </label>
+          <input id="clf-name" type="text" class="form-input"
+            placeholder="e.g. Maiduguri Primary School"
+            onfocus="this.style.borderColor='var(--brand)'; this.classList.remove('error'); document.getElementById('clf-name-error').style.display='none';"
+            onblur="this.style.borderColor='var(--gray-300)'" />
+          <span id="clf-name-error" class="form-error">Enter the location name.</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="clf-contact-name">Person responsible</label>
+          <input id="clf-contact-name" type="text" class="form-input"
+            placeholder="Name (optional)"
+            onfocus="this.style.borderColor='var(--brand)'"
+            onblur="this.style.borderColor='var(--gray-300)'" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="clf-contact-phone">Contact number</label>
+          <input id="clf-contact-phone" type="tel" class="form-input"
+            placeholder="+234 … (optional)"
+            onfocus="this.style.borderColor='var(--brand)'"
+            onblur="this.style.borderColor='var(--gray-300)'" />
+        </div>
+
+        <div class="gps-chip">
+          <span class="material-icons">location_on</span> Location captured
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-primary" onclick="startClfSession()">Start Session</button>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════
+         SCREEN 3b — Transit Setup
+    ══════════════════════════════════════════ -->
+    <div id="screen-transit-setup" class="screen">
+      <div class="header">
+        <button class="header-back" onclick="goTo('choose-method')">
+          <span class="material-icons">arrow_back</span> Back
+        </button>
+        <div class="header-label">Transit post</div>
+        <div class="header-title">Set up transit point</div>
+      </div>
+
+      <div class="body">
+        <div class="form-group">
+          <label class="form-label" for="transit-type">Type</label>
+          <select id="transit-type" class="form-input form-select"
+            onfocus="this.style.borderColor='var(--brand)'"
+            onblur="this.style.borderColor='var(--gray-300)'">
+            <option value="">Select type…</option>
+            <option value="bus-station">Bus station</option>
+            <option value="border">Border crossing</option>
+            <option value="checkpoint">Checkpoint</option>
+            <option value="ferry">Ferry terminal</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="transit-name">
+            Site name or landmark <span style="color:var(--error)">*</span>
+          </label>
+          <input id="transit-name" type="text" class="form-input"
+            placeholder="e.g. Maidana Motor Park"
+            onfocus="this.style.borderColor='var(--brand)'; this.classList.remove('error'); document.getElementById('transit-name-error').style.display='none';"
+            onblur="this.style.borderColor='var(--gray-300)'" />
+          <span id="transit-name-error" class="form-error">Enter a site name or landmark.</span>
+        </div>
+
+        <div class="gps-chip">
+          <span class="material-icons">location_on</span> Location captured
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-primary" onclick="startTransitSession()">Start Session</button>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════
+         SCREEN 4 — Delivery Dashboard
+    ══════════════════════════════════════════ -->
+    <div id="screen-dashboard" class="screen">
+      <div class="header header--brand">
+        <button class="header-back" onclick="goTo('home')">
+          <span class="material-icons">arrow_back</span> Sessions
+        </button>
+        <div class="dash-badge-row">
+          <span id="dash-badge" class="badge-pill badge-pill--white">CLF</span>
+          <span id="dash-site" class="dash-site-name">—</span>
+        </div>
+        <div class="header-subtitle" id="dash-date">Today</div>
+      </div>
+
+      <div class="body">
+        <div class="progress-panel">
+          <div class="progress-label">Vaccinated today</div>
+          <div class="progress-number" id="dash-total">0</div>
+          <div class="progress-sub">
+            <span id="dash-male">0</span> male &nbsp;·&nbsp; <span id="dash-female">0</span> female
+          </div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-primary" onclick="resetChildForm(); goTo('child-details')">Deliver</button>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════
+         SCREEN 5 — Child Details
+    ══════════════════════════════════════════ -->
+    <div id="screen-child-details" class="screen">
+      <div class="header">
+        <button class="header-back" onclick="goTo('dashboard')">
+          <span class="material-icons">arrow_back</span> Back
+        </button>
+        <div class="header-label">Record vaccination</div>
+        <div class="header-title">Child details</div>
+      </div>
+
+      <div class="body">
+        <div class="form-group">
+          <label class="form-label" for="child-name">Name</label>
+          <input id="child-name" type="text" class="form-input"
+            placeholder="Optional"
+            onfocus="this.style.borderColor='var(--brand)'"
+            onblur="this.style.borderColor='var(--gray-300)'" />
+        </div>
+
+        <div class="form-group">
+          <div class="section-label">Gender</div>
+          <div class="pill-group">
+            <button id="gender-male"   class="pill-btn" onclick="selectGender('male')">Male</button>
+            <button id="gender-female" class="pill-btn" onclick="selectGender('female')">Female</button>
+          </div>
+          <div id="gender-error" class="pill-error">Select a gender.</div>
+        </div>
+
+        <div class="form-group">
+          <div class="section-label">Age group</div>
+          <div class="pill-group">
+            <button id="band-0-11M"  class="pill-btn" onclick="selectBand('0-11M')">0–11 months</button>
+            <button id="band-12-59M" class="pill-btn" onclick="selectBand('12-59M')">12–59 months</button>
+          </div>
+          <div id="age-error" class="pill-error">Select an age group.</div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-primary" onclick="goToSummary()">Continue</button>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════
+         SCREEN 6 — Vaccination Summary
+    ══════════════════════════════════════════ -->
+    <div id="screen-summary" class="screen">
+      <div class="header">
+        <button class="header-back" onclick="goTo('child-details')">
+          <span class="material-icons">arrow_back</span> Back
+        </button>
+        <div class="header-label">Confirm</div>
+        <div class="header-title">Vaccination summary</div>
+      </div>
+
+      <div class="body">
+        <div class="summary-card">
+          <div class="summary-row">
+            <span class="summary-row-label">Name</span>
+            <span id="sum-name" class="summary-row-value">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-row-label">Gender</span>
+            <span id="sum-gender" class="summary-row-value">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-row-label">Age group</span>
+            <span id="sum-age" class="summary-row-value">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-row-label">Vaccine</span>
+            <span class="summary-row-value">nOPV2 oral drops</span>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;">
+          <div class="section-label">Checklist</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--success-bg);border:1px solid #bbf7d0;border-radius:var(--radius-md);">
+              <span class="material-icons" style="font-size:20px;color:var(--success);">check</span>
+              <span style="font-size:14px;color:var(--gray-800);font-weight:500;">Two drops administered</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--success-bg);border:1px solid #bbf7d0;border-radius:var(--radius-md);">
+              <span class="material-icons" style="font-size:20px;color:var(--success);">check</span>
+              <span style="font-size:14px;color:var(--gray-800);font-weight:500;">Finger marked</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-primary" onclick="confirmDelivery()">Confirm Vaccination</button>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════
+         SCREEN 7 — Success
+    ══════════════════════════════════════════ -->
+    <div id="screen-success" class="screen">
+      <div class="success-screen-inner">
+        <div class="check-circle">
+          <span class="material-icons">check</span>
+        </div>
+        <div class="success-title">Recorded</div>
+        <div class="success-sub">nOPV2 delivered successfully.</div>
+        <div id="success-total" class="success-chip">Session total: 0 vaccinated</div>
+
+        <div class="success-actions">
+          <button class="btn btn-primary"   onclick="recordAnother()">Record Another</button>
+          <button class="btn btn-secondary" onclick="backToDashboard()">Back to Dashboard</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- #app -->
+
+  <script>
+    /* ─── State ─── */
+    const state = {
+      sessionType: null,
+      siteType: null,
+      siteName: '',
+      vaccinated: 0,
+      male: 0,
+      female: 0,
+      currentSessionId: null,
+      sessions: [
+        { id: 1, type: 'clf', siteName: 'Maiduguri Primary School', date: 'Today', vaccinated: 12, male: 7, female: 5 }
+      ],
+      currentRecord: {}
+    };
+
+    /* ─── Navigation ─── */
+    function goTo(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+      const el = document.getElementById('screen-' + screenId);
+      if (el) el.style.display = 'flex';
+    }
+
+    /* ─── Render Home Sessions ─── */
+    function renderSessions() {
+      const list  = document.getElementById('sessions-list');
+      const empty = document.getElementById('sessions-empty');
+      if (!list) return;
+      list.innerHTML = '';
+      if (state.sessions.length === 0) { empty.style.display = 'block'; return; }
+      empty.style.display = 'none';
+      state.sessions.forEach(s => {
+        const typeLabel = s.type === 'clf' ? 'CLF' : 'Transit post';
+        const card = document.createElement('div');
+        card.className = 'session-card';
+        card.innerHTML = `
+          <div class="session-card-top">
+            <span class="badge-pill">${typeLabel}</span>
+          </div>
+          <div class="session-site">${s.siteName}</div>
+          <div class="session-meta">${s.vaccinated} vaccinated · ${s.male || 0}M / ${s.female || 0}F</div>
+          <div class="session-card-footer">
+            <button class="btn btn-ghost" onclick="resumeSession(${s.id})">
+              Resume <span class="material-icons" style="font-size:16px;">arrow_forward</span>
+            </button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    /* ─── Resume a session ─── */
+    function resumeSession(id) {
+      const s = state.sessions.find(x => x.id === id);
+      if (!s) return;
+      state.sessionType = s.type;
+      state.siteName    = s.siteName;
+      state.vaccinated  = s.vaccinated;
+      state.male        = s.male   || 0;
+      state.female      = s.female || 0;
+      state.currentSessionId = s.id;
+      updateDashboard();
+      goTo('dashboard');
+    }
+
+    /* ─── Update Dashboard ─── */
+    function updateDashboard() {
+      const v = state.vaccinated || 0;
+      const m = state.male       || 0;
+      const f = state.female     || 0;
+      const el = id => document.getElementById(id);
+      if (el('dash-total'))  el('dash-total').textContent  = v;
+      if (el('dash-male'))   el('dash-male').textContent   = m;
+      if (el('dash-female')) el('dash-female').textContent = f;
+      if (el('dash-site'))   el('dash-site').textContent   = state.siteName || '—';
+      if (el('dash-badge'))  el('dash-badge').textContent  = state.sessionType === 'clf' ? 'CLF' : 'Transit post';
+      const dateEl = el('dash-date');
+      if (dateEl) {
+        dateEl.textContent = new Date().toLocaleDateString('en-GB', {
+          weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+        });
+      }
+    }
+
+    /* ─── Reset child details form DOM ─── */
+    function resetChildForm() {
+      state.currentRecord = {};
+      const nameEl = document.getElementById('child-name');
+      if (nameEl) nameEl.value = '';
+      ['0-11M', '12-59M'].forEach(b => {
+        const el = document.getElementById('band-' + b);
+        if (el) { el.style.background = '#fff'; el.style.color = 'var(--gray-700)'; el.style.borderColor = 'var(--gray-200)'; }
+      });
+      ['male', 'female'].forEach(g => {
+        const el = document.getElementById('gender-' + g);
+        if (el) { el.style.background = '#fff'; el.style.color = 'var(--gray-700)'; el.style.borderColor = 'var(--gray-200)'; }
+      });
+      ['gender-error', 'age-error'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+    }
+
+    /* ─── Gender selection ─── */
+    function selectGender(gender) {
+      state.currentRecord.gender = gender;
+      document.getElementById('gender-error').style.display = 'none';
+      ['male', 'female'].forEach(g => {
+        const el = document.getElementById('gender-' + g);
+        if (!el) return;
+        const active = g === gender;
+        el.style.background   = active ? 'var(--brand)' : '#fff';
+        el.style.color        = active ? '#fff' : 'var(--gray-700)';
+        el.style.borderColor  = active ? 'var(--brand)' : 'var(--gray-200)';
+      });
+    }
+
+    /* ─── Select method ─── */
+    function selectMethod(type) {
+      state.sessionType = type;
+      state.vaccinated  = 0;
+      state.male        = 0;
+      state.female      = 0;
+      state.siteName    = '';
+      ['clf-name', 'transit-name'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.value = ''; el.style.borderColor = 'var(--gray-300)'; }
+      });
+      ['clf-type', 'transit-type'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.selectedIndex = 0;
+      });
+      if (type === 'clf') goTo('clf-setup');
+      else goTo('transit-setup');
+    }
+
+    /* ─── Start CLF session ─── */
+    function startClfSession() {
+      const nameEl  = document.getElementById('clf-name');
+      const errorEl = document.getElementById('clf-name-error');
+      if (!nameEl.value.trim()) {
+        nameEl.classList.add('error');
+        nameEl.style.borderColor = 'var(--error)';
+        errorEl.style.display = 'block';
+        nameEl.focus();
+        return;
+      }
+      errorEl.style.display = 'none';
+      state.siteType = document.getElementById('clf-type').value || 'other';
+      state.siteName = nameEl.value.trim();
+      addSession();
+      updateDashboard();
+      goTo('dashboard');
+    }
+
+    /* ─── Start Transit session ─── */
+    function startTransitSession() {
+      const nameEl  = document.getElementById('transit-name');
+      const errorEl = document.getElementById('transit-name-error');
+      if (!nameEl.value.trim()) {
+        nameEl.classList.add('error');
+        nameEl.style.borderColor = 'var(--error)';
+        errorEl.style.display = 'block';
+        nameEl.focus();
+        return;
+      }
+      errorEl.style.display = 'none';
+      state.siteType = document.getElementById('transit-type').value || 'other';
+      state.siteName = nameEl.value.trim();
+      addSession();
+      updateDashboard();
+      goTo('dashboard');
+    }
+
+    /* ─── Add new session to state ─── */
+    function addSession() {
+      const newId = Date.now();
+      state.currentSessionId = newId;
+      state.sessions.push({
+        id: newId, type: state.sessionType, siteName: state.siteName,
+        date: 'Today', vaccinated: 0, male: 0, female: 0
+      });
+      renderSessions();
+    }
+
+    /* ─── Age band selection ─── */
+    function selectBand(band) {
+      state.currentRecord.ageBand = band;
+      document.getElementById('age-error').style.display = 'none';
+      ['0-11M', '12-59M'].forEach(b => {
+        const el = document.getElementById('band-' + b);
+        if (!el) return;
+        const active = b === band;
+        el.style.background  = active ? 'var(--brand)' : '#fff';
+        el.style.color       = active ? '#fff' : 'var(--gray-700)';
+        el.style.borderColor = active ? 'var(--brand)' : 'var(--gray-200)';
+      });
+    }
+
+    /* ─── Go to summary ─── */
+    function goToSummary() {
+      const r = state.currentRecord;
+      let valid = true;
+      if (!r.gender) {
+        document.getElementById('gender-error').style.display = 'block';
+        valid = false;
+      }
+      if (!r.ageBand) {
+        document.getElementById('age-error').style.display = 'block';
+        valid = false;
+      }
+      if (!valid) return;
+      r.name = document.getElementById('child-name').value.trim();
+      updateSummary();
+      goTo('summary');
+    }
+
+    /* ─── Update Summary screen ─── */
+    function updateSummary() {
+      const r = state.currentRecord;
+      document.getElementById('sum-name').textContent   = r.name || '—';
+      document.getElementById('sum-gender').textContent = r.gender === 'male' ? 'Male' : 'Female';
+      document.getElementById('sum-age').textContent    =
+        r.ageBand === '0-11M' ? '0–11 months' : '12–59 months';
+    }
+
+    /* ─── Confirm delivery ─── */
+    function confirmDelivery() {
+      state.vaccinated = (state.vaccinated || 0) + 1;
+      if (state.currentRecord.gender === 'male') state.male   = (state.male   || 0) + 1;
+      else                                        state.female = (state.female || 0) + 1;
+      const s = state.sessions.find(x => x.id === state.currentSessionId);
+      if (s) {
+        s.vaccinated = state.vaccinated;
+        s.male       = state.male;
+        s.female     = state.female;
+        renderSessions();
+      }
+      document.getElementById('success-total').textContent =
+        'Session total: ' + state.vaccinated + ' vaccinated';
+      state.currentRecord = {};
+      goTo('success');
+    }
+
+    /* ─── Record another ─── */
+    function recordAnother() { resetChildForm(); goTo('child-details'); }
+
+    /* ─── Back to dashboard ─── */
+    function backToDashboard() { updateDashboard(); goTo('dashboard'); }
+
+    /* ─── Init ─── */
+    window.onload = () => { renderSessions(); goTo('home'); };
+  </script>
+</body>
+</html>
