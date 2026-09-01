@@ -324,6 +324,11 @@
       margin-top: 4px;
       display: none;
     }
+    .form-textarea {
+      height: 80px;
+      padding: 12px;
+      resize: none;
+    }
 
     /* ── GPS chip ── */
     .gps-chip {
@@ -654,7 +659,7 @@
 
 
     <!-- ══════════════════════════════════════════
-         SCREEN 4 — Delivery Dashboard
+         SCREEN 4 — Session Dashboard
     ══════════════════════════════════════════ -->
     <div id="screen-dashboard" class="screen">
       <div class="header header--brand">
@@ -676,23 +681,16 @@
             <span id="dash-male">0</span> male &nbsp;·&nbsp; <span id="dash-female">0</span> female
           </div>
           <div class="divider"></div>
-          <div style="display:flex;gap:24px;">
-            <div>
-              <div class="progress-label">Skipped</div>
-              <div id="dash-skipped" style="font-size:24px;font-weight:700;color:var(--brand);">0</div>
-            </div>
-            <div>
-              <div class="progress-label">Unable</div>
-              <div id="dash-unable" style="font-size:24px;font-weight:700;color:var(--brand);">0</div>
-            </div>
+          <div>
+            <div class="progress-label">Children referred</div>
+            <div id="dash-referred" style="font-size:24px;font-weight:700;color:var(--brand);">0</div>
           </div>
         </div>
       </div>
 
       <div class="action-bar">
-        <button class="btn btn-primary"   onclick="startVaccinateFlow()">Deliver</button>
-        <button class="btn btn-secondary" onclick="startSkipFlow()">Skip Vaccination</button>
-        <button class="btn btn-secondary" onclick="startUnableFlow()">Unable to Vaccinate</button>
+        <button class="btn btn-primary"   onclick="startVaccinateFlow()">Vaccinate</button>
+        <button class="btn btn-secondary" onclick="startReferFlow()">Refer</button>
       </div>
     </div>
 
@@ -797,7 +795,7 @@
 
 
     <!-- ══════════════════════════════════════════
-         SCREEN 7 — Success
+         SCREEN 7 — Vaccination Success
     ══════════════════════════════════════════ -->
     <div id="screen-success" class="screen">
       <div class="success-screen-inner">
@@ -817,157 +815,71 @@
 
 
     <!-- ══════════════════════════════════════════
-         SCREEN 8 — Skip Reason
+         SCREEN 8 — Referral Details
     ══════════════════════════════════════════ -->
-    <div id="screen-skip-reason" class="screen">
+    <div id="screen-referral-details" class="screen">
       <div class="header">
-        <button class="header-back" onclick="goTo('child-details')">
+        <button class="header-back" onclick="goTo('dashboard')">
           <span class="material-icons">arrow_back</span> Back
         </button>
-        <div class="header-label">Skip vaccination</div>
-        <div class="header-title">Why is this child not being vaccinated here?</div>
+        <div class="header-label">Record referral</div>
+        <div class="header-title">Referral details</div>
       </div>
 
       <div class="body">
-        <div class="method-card" onclick="selectSkipReason('elsewhere')">
-          <div class="method-card-title">Vaccinated elsewhere</div>
-          <div class="method-card-subtitle">Child received the vaccine at another site</div>
-        </div>
-        <div class="method-card" onclick="selectSkipReason('this-campaign')">
-          <div class="method-card-title">Already vaccinated in this campaign</div>
-          <div class="method-card-subtitle">Child was vaccinated earlier in this round</div>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- ══════════════════════════════════════════
-         SCREEN 9 — Skip Details
-    ══════════════════════════════════════════ -->
-    <div id="screen-skip-details" class="screen">
-      <div class="header">
-        <button class="header-back" onclick="goTo('skip-reason')">
-          <span class="material-icons">arrow_back</span> Back
-        </button>
-        <div class="header-label">Skip vaccination</div>
-        <div id="skip-details-title" class="header-title">Details</div>
-      </div>
-
-      <div class="body">
-        <div id="skip-where-group" class="form-group">
-          <label class="form-label" for="skip-where">Where was the child vaccinated?</label>
-          <select id="skip-where" class="form-input form-select"
-            onfocus="this.style.borderColor='var(--brand)'"
-            onblur="this.style.borderColor='var(--gray-300)'">
-            <option value="">Select…</option>
-            <option value="school">School</option>
-            <option value="marketplace">Marketplace</option>
-            <option value="health-facility">Health facility</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
         <div class="form-group">
-          <label class="form-label" for="skip-date">When?</label>
-          <input id="skip-date" type="date" class="form-input"
+          <label class="form-label" for="ref-contact-name">Contact person</label>
+          <input id="ref-contact-name" type="text" class="form-input"
+            placeholder="Guardian or caregiver name"
             onfocus="this.style.borderColor='var(--brand)'"
             onblur="this.style.borderColor='var(--gray-300)'" />
         </div>
-      </div>
 
-      <div class="action-bar">
-        <button class="btn btn-primary" onclick="confirmSkip()">Confirm</button>
-      </div>
-    </div>
-
-
-    <!-- ══════════════════════════════════════════
-         SCREEN 10 — Skip Success
-    ══════════════════════════════════════════ -->
-
-    <div id="screen-skip-success" class="screen">
-      <div class="success-screen-inner">
-        <div class="check-circle">
-          <span class="material-icons">check</span>
+        <div class="form-group">
+          <label class="form-label" for="ref-contact-number">Contact number</label>
+          <input id="ref-contact-number" type="tel" class="form-input"
+            placeholder="+234 …"
+            onfocus="this.style.borderColor='var(--brand)'"
+            onblur="this.style.borderColor='var(--gray-300)'" />
         </div>
-        <div class="success-title">Recorded</div>
-        <div class="success-sub" id="skip-success-sub">Skip recorded.</div>
-        <div id="skip-success-chip" class="success-chip">Session total: 0 vaccinated</div>
 
-        <div class="success-actions">
-          <button class="btn btn-primary"   onclick="recordAnotherSkip()">Record Another</button>
-          <button class="btn btn-secondary" onclick="backToDashboard()">Back to Dashboard</button>
+        <div class="form-group">
+          <label class="form-label" for="ref-address">Address or location</label>
+          <input id="ref-address" type="text" class="form-input"
+            placeholder="Street, landmark, or area"
+            onfocus="this.style.borderColor='var(--brand)'"
+            onblur="this.style.borderColor='var(--gray-300)'" />
         </div>
-      </div>
-    </div>
 
-
-    <!-- ══════════════════════════════════════════
-         SCREEN 11 — Unable Reason
-    ══════════════════════════════════════════ -->
-    <div id="screen-unable-reason" class="screen">
-      <div class="header">
-        <button class="header-back" onclick="goTo('child-details')">
-          <span class="material-icons">arrow_back</span> Back
-        </button>
-        <div class="header-label">Unable to vaccinate</div>
-        <div class="header-title">What prevented vaccination?</div>
-      </div>
-
-      <div class="body">
-        <div class="method-card" onclick="selectUnableReason('refusal')">
-          <div class="method-card-title">Refusal</div>
-          <div class="method-card-subtitle">Caregiver or child refused vaccination</div>
-        </div>
-        <div class="method-card" onclick="selectUnableReason('unavailable')">
-          <div class="method-card-title">Beneficiary unavailable</div>
-          <div class="method-card-subtitle">Child was not present or could not be reached</div>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- ══════════════════════════════════════════
-         SCREEN 12 — Unable Location
-    ══════════════════════════════════════════ -->
-    <div id="screen-unable-location" class="screen">
-      <div class="header">
-        <button class="header-back" onclick="goTo('unable-reason')">
-          <span class="material-icons">arrow_back</span> Back
-        </button>
-        <div class="header-label">Unable to vaccinate</div>
-        <div class="header-title">Capture location</div>
-      </div>
-
-      <div class="body">
-        <p style="font-size:14px;color:var(--text-secondary);margin-bottom:20px;line-height:1.5;">
-          GPS location is captured to help identify areas with high refusal or unavailability.
-        </p>
-        <div class="gps-chip">
-          <span class="material-icons">location_on</span> Location captured
+        <div class="form-group">
+          <label class="form-label" for="ref-reason">Reason for referral</label>
+          <textarea id="ref-reason" class="form-input form-textarea"
+            placeholder="Describe why the child is being referred"
+            onfocus="this.style.borderColor='var(--brand)'"
+            onblur="this.style.borderColor='var(--gray-300)'"></textarea>
         </div>
       </div>
 
       <div class="action-bar">
-        <button class="btn btn-primary" onclick="confirmUnable()">Confirm</button>
+        <button class="btn btn-primary" onclick="confirmReferral()">Confirm Referral</button>
       </div>
     </div>
 
 
     <!-- ══════════════════════════════════════════
-         SCREEN 13 — Unable Success
+         SCREEN 9 — Referral Success
     ══════════════════════════════════════════ -->
-    <div id="screen-unable-success" class="screen">
+    <div id="screen-referral-success" class="screen">
       <div class="success-screen-inner">
         <div class="check-circle">
           <span class="material-icons">check</span>
         </div>
-        <div class="success-title">Recorded</div>
-        <div class="success-sub" id="unable-success-sub">Unable to vaccinate recorded.</div>
-        <div id="unable-success-chip" class="success-chip">Session total: 0 vaccinated</div>
+        <div class="success-title">Referral recorded</div>
+        <div class="success-sub">The child has been referred for follow-up.</div>
+        <div id="referral-total" class="success-chip">Session total: 0 referred</div>
 
         <div class="success-actions">
-          <button class="btn btn-primary"   onclick="recordAnotherUnable()">Record Another</button>
+          <button class="btn btn-primary"   onclick="recordAnotherReferral()">Record Another Referral</button>
           <button class="btn btn-secondary" onclick="backToDashboard()">Back to Dashboard</button>
         </div>
       </div>
@@ -984,14 +896,10 @@
       vaccinated: 0,
       male: 0,
       female: 0,
+      referred: 0,
       currentSessionId: null,
-      currentFlow: 'vaccinate',
-      skipReason: null,
-      unableReason: null,
-      skipped: 0,
-      unable: 0,
       sessions: [
-        { id: 1, type: 'clf', siteName: 'Maiduguri Primary School', date: 'Today', vaccinated: 12, male: 7, female: 5 }
+        { id: 1, type: 'clf', siteName: 'Maiduguri Primary School', date: 'Today', vaccinated: 12, male: 7, female: 5, referred: 2 }
       ],
       currentRecord: {}
     };
@@ -1021,7 +929,7 @@
           </div>
           <div class="session-site">${s.siteName}</div>
           <div class="session-meta">${s.vaccinated} vaccinated · ${s.male || 0}M / ${s.female || 0}F</div>
-          ${(s.skipped || 0) + (s.unable || 0) > 0 ? `<div class="session-meta">${s.skipped || 0} skipped · ${s.unable || 0} unable</div>` : ''}
+          ${(s.referred || 0) > 0 ? `<div class="session-meta">${s.referred} referred</div>` : ''}
           <div class="session-card-footer">
             <button class="btn btn-ghost" onclick="resumeSession(${s.id})">
               Resume <span class="material-icons" style="font-size:16px;">arrow_forward</span>
@@ -1039,10 +947,9 @@
       state.sessionType = s.type;
       state.siteName    = s.siteName;
       state.vaccinated  = s.vaccinated;
-      state.male        = s.male    || 0;
-      state.female      = s.female  || 0;
-      state.skipped     = s.skipped || 0;
-      state.unable      = s.unable  || 0;
+      state.male        = s.male     || 0;
+      state.female      = s.female   || 0;
+      state.referred    = s.referred || 0;
       state.currentSessionId = s.id;
       updateDashboard();
       goTo('dashboard');
@@ -1054,13 +961,12 @@
       const m = state.male       || 0;
       const f = state.female     || 0;
       const el = id => document.getElementById(id);
-      if (el('dash-total'))   el('dash-total').textContent   = v;
-      if (el('dash-male'))    el('dash-male').textContent    = m;
-      if (el('dash-female'))  el('dash-female').textContent  = f;
-      if (el('dash-skipped')) el('dash-skipped').textContent = state.skipped || 0;
-      if (el('dash-unable'))  el('dash-unable').textContent  = state.unable  || 0;
-      if (el('dash-site'))   el('dash-site').textContent   = state.siteName || '—';
-      if (el('dash-badge'))  el('dash-badge').textContent  = state.sessionType === 'clf' ? 'CLF' : 'Transit post';
+      if (el('dash-total'))    el('dash-total').textContent    = v;
+      if (el('dash-male'))     el('dash-male').textContent     = m;
+      if (el('dash-female'))   el('dash-female').textContent   = f;
+      if (el('dash-referred')) el('dash-referred').textContent = state.referred || 0;
+      if (el('dash-site'))     el('dash-site').textContent     = state.siteName || '—';
+      if (el('dash-badge'))    el('dash-badge').textContent    = state.sessionType === 'clf' ? 'CLF' : 'Transit post';
       const dateEl = el('dash-date');
       if (dateEl) {
         dateEl.textContent = new Date().toLocaleDateString('en-GB', {
@@ -1088,6 +994,14 @@
       });
     }
 
+    /* ─── Reset referral form DOM ─── */
+    function resetReferralForm() {
+      ['ref-contact-name', 'ref-contact-number', 'ref-address', 'ref-reason'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.value = ''; el.style.borderColor = 'var(--gray-300)'; }
+      });
+    }
+
     /* ─── Gender selection ─── */
     function selectGender(gender) {
       state.currentRecord.gender = gender;
@@ -1108,6 +1022,7 @@
       state.vaccinated  = 0;
       state.male        = 0;
       state.female      = 0;
+      state.referred    = 0;
       state.siteName    = '';
       ['clf-name', 'transit-name'].forEach(id => {
         const el = document.getElementById(id);
@@ -1165,7 +1080,7 @@
       state.currentSessionId = newId;
       state.sessions.push({
         id: newId, type: state.sessionType, siteName: state.siteName,
-        date: 'Today', vaccinated: 0, male: 0, female: 0, skipped: 0, unable: 0
+        date: 'Today', vaccinated: 0, male: 0, female: 0, referred: 0
       });
       renderSessions();
     }
@@ -1184,7 +1099,7 @@
       });
     }
 
-    /* ─── Go to summary (or branch for skip/unable) ─── */
+    /* ─── Go to summary ─── */
     function goToSummary() {
       const r = state.currentRecord;
       let valid = true;
@@ -1198,8 +1113,6 @@
       }
       if (!valid) return;
       r.name = document.getElementById('child-name').value.trim();
-      if (state.currentFlow === 'skip')   { goTo('skip-reason');  return; }
-      if (state.currentFlow === 'unable') { goTo('unable-reason'); return; }
       updateSummary();
       goTo('summary');
     }
@@ -1231,66 +1144,24 @@
       goTo('success');
     }
 
-    /* ─── Skip sub-flow ─── */
-    function selectSkipReason(reason) {
-      state.skipReason = reason;
-      const titleEl     = document.getElementById('skip-details-title');
-      const whereGroup  = document.getElementById('skip-where-group');
-      if (reason === 'elsewhere') {
-        if (titleEl)    titleEl.textContent        = 'Where and when?';
-        if (whereGroup) whereGroup.style.display   = 'block';
-      } else {
-        if (titleEl)    titleEl.textContent        = 'When was the child vaccinated?';
-        if (whereGroup) whereGroup.style.display   = 'none';
-      }
-      document.getElementById('skip-date').value = '';
-      if (document.getElementById('skip-where')) document.getElementById('skip-where').selectedIndex = 0;
-      goTo('skip-details');
-    }
-
-    function confirmSkip() {
-      state.skipped = (state.skipped || 0) + 1;
+    /* ─── Referral sub-flow ─── */
+    function confirmReferral() {
+      state.referred = (state.referred || 0) + 1;
       const s = state.sessions.find(x => x.id === state.currentSessionId);
-      if (s) { s.skipped = (s.skipped || 0) + 1; renderSessions(); }
-      const subEl = document.getElementById('skip-success-sub');
-      if (subEl) subEl.textContent = state.skipReason === 'elsewhere'
-        ? 'Vaccinated elsewhere recorded.' : 'Already vaccinated recorded.';
-      document.getElementById('skip-success-chip').textContent =
-        'Session total: ' + state.vaccinated + ' vaccinated';
-      state.currentRecord = {};
-      goTo('skip-success');
+      if (s) { s.referred = (s.referred || 0) + 1; renderSessions(); }
+      document.getElementById('referral-total').textContent =
+        'Session total: ' + state.referred + ' referred';
+      goTo('referral-success');
     }
 
-    function recordAnotherSkip() { state.currentFlow = 'skip'; resetChildForm(); goTo('child-details'); }
-
-    /* ─── Unable sub-flow ─── */
-    function selectUnableReason(reason) {
-      state.unableReason = reason;
-      goTo('unable-location');
-    }
-
-    function confirmUnable() {
-      state.unable = (state.unable || 0) + 1;
-      const s = state.sessions.find(x => x.id === state.currentSessionId);
-      if (s) { s.unable = (s.unable || 0) + 1; renderSessions(); }
-      const subEl = document.getElementById('unable-success-sub');
-      if (subEl) subEl.textContent = state.unableReason === 'refusal'
-        ? 'Refusal recorded.' : 'Beneficiary unavailable recorded.';
-      document.getElementById('unable-success-chip').textContent =
-        'Session total: ' + state.vaccinated + ' vaccinated';
-      state.currentRecord = {};
-      goTo('unable-success');
-    }
-
-    function recordAnotherUnable() { state.currentFlow = 'unable'; resetChildForm(); goTo('child-details'); }
+    function recordAnotherReferral() { resetReferralForm(); goTo('referral-details'); }
 
     /* ─── Flow entry points ─── */
-    function startVaccinateFlow() { state.currentFlow = 'vaccinate'; resetChildForm(); goTo('child-details'); }
-    function startSkipFlow()      { state.currentFlow = 'skip';      resetChildForm(); goTo('child-details'); }
-    function startUnableFlow()    { state.currentFlow = 'unable';    resetChildForm(); goTo('child-details'); }
+    function startVaccinateFlow() { resetChildForm(); goTo('child-details'); }
+    function startReferFlow()     { resetReferralForm(); goTo('referral-details'); }
 
-    /* ─── Record another ─── */
-    function recordAnother() { state.currentFlow = 'vaccinate'; resetChildForm(); goTo('child-details'); }
+    /* ─── Record another vaccination ─── */
+    function recordAnother() { resetChildForm(); goTo('child-details'); }
 
     /* ─── Back to dashboard ─── */
     function backToDashboard() { updateDashboard(); goTo('dashboard'); }
